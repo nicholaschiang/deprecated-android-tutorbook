@@ -7,11 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class AccountFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.account_fragment, container, false);
+        return inflater.inflate(R.layout.search_fragment, container, false);
     }
 }

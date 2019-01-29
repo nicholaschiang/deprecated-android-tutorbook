@@ -1,5 +1,7 @@
 package io.github.nicholaschiang.tutorbook;
 
+
+// TODO: replace FragmentManager with new API support
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -21,15 +23,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupNavigationView() {
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        if (bottomNavigationView != null) {
+        BottomNavigationView mBottomNavigationView = findViewById(R.id.bottom_navigation);
+        if (mBottomNavigationView != null) {
 
             // Select first menu item by default and show Fragment accordingly.
-            Menu menu = bottomNavigationView.getMenu();
+            Menu menu = mBottomNavigationView.getMenu();
             selectFragment(menu.getItem(0));
 
             // Set action to perform when any menu-item is selected.
-            bottomNavigationView.setOnNavigationItemSelectedListener(
+            mBottomNavigationView.setOnNavigationItemSelectedListener(
                     new BottomNavigationView.OnNavigationItemSelectedListener() {
                         @Override
                         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -54,13 +56,18 @@ public class MainActivity extends AppCompatActivity {
                 // Action to perform when Home Menu item is selected.
                 pushFragment(new HomeFragment());
                 break;
-            case R.id.action_bag:
+            case R.id.action_dashboard:
                 // Action to perform when Bag Menu item is selected.
-                pushFragment(new BagFragment());
+                pushFragment(new DashboardFragment());
                 break;
             case R.id.action_account:
                 // Action to perform when Account Menu item is selected.
                 pushFragment(new AccountFragment());
+                break;
+
+            case R.id.action_search:
+                // Action to perform when Search Menu item is selected.
+                pushFragment(new SearchFragment());
                 break;
         }
     }
