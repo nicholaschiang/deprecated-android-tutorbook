@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="card_elevation">4dp</dimen>
+    <dimen name="button_elevation">0dp</dimen>
     <dimen name="card_corners">4dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="padding_left">16dp</dimen>
-    <dimen name="padding_right">16dp</dimen>
+    <dimen name="padding_start">16dp</dimen>
+    <dimen name="padding_end">16dp</dimen>
+    <dimen name="padding_top">16dp</dimen>
+    <dimen name="padding_bottom">16dp</dimen>
+    <dimen name="title_text_size">18sp</dimen>
 </resources>
 
