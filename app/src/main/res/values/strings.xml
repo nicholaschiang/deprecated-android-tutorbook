@@ -13,5 +13,10 @@
     <string name="email_hint">Enter email</string>
     <string name="password_hint">Enter password</string>
     <string name="username_hint">Enter username</string>
+    <string name="description_hint">Enter profile description</string>
+    <string name="needed_subjects_hint">Enter desired study subjects</string>
+    <string name="good_at_subjects_hint">Enter desired tutor subjects</string>
     <string name="profile_pic_description">Profile Picture</string>
+    <string name="temp">No Data</string>
+    <string name="update_profile">Update Profile</string>
 </resources>

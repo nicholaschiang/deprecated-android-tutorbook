@@ -1,55 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/account_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
-    android:orientation="vertical">
+    >
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/welcomeProfile"
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profileImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_start"
+        android:layout_marginTop="@dimen/padding_top"
+        android:contentDescription="@string/profile_pic_description"
+        android:src="@drawable/ic_account"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/colorPrimaryDark"
+        app:layout_constraintStart_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_start"
+        android:layout_marginTop="@dimen/padding_top"
+        android:layout_marginEnd="@dimen/padding_end"
+        android:text="@string/account"
+        android:textSize="@dimen/title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/profileImage"
+        app:layout_constraintStart_toEndOf="@id/profileImage"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/profileDescription"
+        android:inputType="text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_start"
+        android:layout_marginTop="@dimen/padding_top"
+        android:layout_marginEnd="@dimen/padding_end"
+        android:hint="@string/description_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profileImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_start"
-            android:layout_marginTop="@dimen/padding_top"
-            android:contentDescription="@string/profile_pic_description"
-            android:src="@drawable/ic_account"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/colorPrimaryDark"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-
-        <TextView
-            android:id="@+id/welcomeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/padding_start"
-            android:layout_marginTop="@dimen/padding_top"
-            android:layout_marginEnd="@dimen/padding_end"
-            android:text="@string/account"
-            android:textSize="@dimen/title_text_size"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/profileImage"
-            app:layout_constraintStart_toEndOf="@id/profileImage"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-    </android.support.constraint.ConstraintLayout>
-
-    <FrameLayout
-        android:id="@+id/rootLayout"
+    <EditText
+        android:id="@+id/neededStudies"
+        android:inputType="text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/welcomeProfile"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_start"
+        android:layout_marginTop="@dimen/padding_top"
+        android:layout_marginEnd="@dimen/padding_end"
+        android:hint="@string/needed_subjects_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileDescription" />
 
-    </FrameLayout>
+    <EditText
+        android:id="@+id/proficientStudies"
+        android:inputType="text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/padding_start"
+        android:layout_marginTop="@dimen/padding_top"
+        android:layout_marginEnd="@dimen/padding_end"
+        android:hint="@string/good_at_subjects_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/neededStudies" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/updateProfileDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_top"
+        android:layout_marginEnd="@dimen/padding_end"
+        android:text="@string/update_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/proficientStudies"/>
+
+
+</android.support.constraint.ConstraintLayout>

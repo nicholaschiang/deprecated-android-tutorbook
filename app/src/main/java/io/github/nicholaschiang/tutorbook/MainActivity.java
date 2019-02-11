@@ -21,6 +21,7 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     // Firebase and Google Sign-in instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private FirebaseFirestore mFirestore;
     private GoogleApiClient mGoogleApiClient;
 
 
@@ -40,6 +42,22 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.main_activity);
 
         // Initialize Firebase Auth
+        initFirebaseAuth();
+
+        // Enable Firestore logging
+        FirebaseFirestore.setLoggingEnabled(true);
+
+        // Initialize Google Sign-in Client and Firestore
+        initGoogleSignIn();
+        initFirestore();
+
+        // Rebuild navigation view to account for possible username change
+        setupNavigationView();
+
+    }
+
+    private void initFirebaseAuth() {
+        // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseUser = mFirebaseAuth.getCurrentUser();
         if (mFirebaseUser == null) {
@@ -48,16 +66,18 @@ public class MainActivity extends AppCompatActivity
             finish();
             return;
         }
+    }
 
+    private void initFirestore() {
+        mFirestore = FirebaseFirestore.getInstance();
+    }
+
+    private void initGoogleSignIn() {
         // Initialize Google Sign-in Client
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API)
                 .build();
-
-        // Rebuild navigation view to account for possible username change
-        setupNavigationView();
-
     }
 
     @Override
