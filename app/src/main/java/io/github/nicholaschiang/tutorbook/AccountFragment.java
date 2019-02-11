@@ -2,11 +2,12 @@ package io.github.nicholaschiang.tutorbook;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,9 @@ public class AccountFragment extends Fragment {
     // Firebase instance variables
     private FirebaseUser mFirebaseUser;
     private String mUsername;
+
+    // Only load the image once
+    private boolean loadProfilePic = true;
 
     private static final String ANONYMOUS = "anonymous";
 
@@ -51,18 +55,24 @@ public class AccountFragment extends Fragment {
 
         // Set welcome text to reflect current user's username
         TextView welcomeText = v.findViewById(R.id.welcomeText);
-        String welcomeMessage = "Welcome " + mUsername + "!";
+        String welcomeMessage = mUsername;
         welcomeText.setText(welcomeMessage);
 
         // Set profile picture to reflect current user's profile
         ImageView profileImage = v.findViewById(R.id.profileImage);
         if (mFirebaseUser.getPhotoUrl() != null) {
-            new DownloadImageTask(profileImage)
-                    .execute(mFirebaseUser.getPhotoUrl().toString());
+            if (loadProfilePic)
+                new DownloadImageTask(profileImage)
+                        .execute(mFirebaseUser.getPhotoUrl().toString());
+                loadProfilePic = false;
         }
         else
-            profileImage.setColorFilter(getResources().getColor(R.color.colorPrimaryDark));
+            profileImage.setColorFilter(getResources().getColor(R.color.colorPrimary));
 
+        // Add setup view for new users
+        pushFragment(new SetupFragment());
+
+        // Return the final view for use by MainActivity
         return v;
     }
 
@@ -91,5 +101,25 @@ public class AccountFragment extends Fragment {
             bmImage.setImageBitmap(result);
         }
     }
+
+    /**
+     * Method to push any fragment into given id.
+     *
+     * @param fragment An instance of Fragment to show into the given id.
+     */
+    protected void pushFragment(Fragment fragment) {
+        if (fragment == null)
+            return;
+
+        FragmentManager fragmentManager = getChildFragmentManager();
+        if (fragmentManager != null) {
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            if (ft != null) {
+                ft.replace(R.id.rootLayout, fragment);
+                ft.commit();
+            }
+        }
+    }
+
 
 }

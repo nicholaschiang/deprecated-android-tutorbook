@@ -29,22 +29,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     // Google
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    // implementation 'com.google.android.gms:play-services-appinvite:16.0.7'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-analytics:15.0.2'
-    implementation 'com.google.firebase:firebase-database:15.0.1'
-    implementation 'com.google.firebase:firebase-storage:15.0.2'
-    implementation 'com.google.firebase:firebase-auth:15.1.0'
-    implementation 'com.google.firebase:firebase-config:15.0.2'
-    implementation 'com.google.android.gms:play-services-appinvite:15.0.2'
-    implementation 'com.google.firebase:firebase-messaging:15.0.2'
-    implementation 'com.google.android.gms:play-services-ads:15.0.1'
-    implementation 'com.google.firebase:firebase-appindexing:15.0.1'
-    implementation 'com.google.firebase:firebase-analytics:15.0.2'
-
-    // Firebase UI
-    implementation 'com.firebaseui:firebase-ui-database:3.3.1'
+    implementation 'com.google.firebase:firebase-auth:16.1.0'
+    implementation 'com.google.firebase:firebase-firestore:18.0.1'
+    // implementation 'com.google.firebase:firestore-admin:6.7.0'
 
     // Circular profile image views
     implementation 'de.hdodenhof:circleimageview:3.0.0'
