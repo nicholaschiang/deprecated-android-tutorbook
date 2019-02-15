@@ -1,33 +1,59 @@
 package io.github.nicholaschiang.tutorbook;
 
 
-// TODO: replace FragmentManager with new API support
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.SetOptions;
 
-public class MainActivity extends AppCompatActivity
-        implements GoogleApiClient.OnConnectionFailedListener {
+import io.github.nicholaschiang.tutorbook.adapter.FirestoreAdapter;
+import io.github.nicholaschiang.tutorbook.adapter.UserAdapter;
+import io.github.nicholaschiang.tutorbook.model.User;
+import io.github.nicholaschiang.tutorbook.util.UserUtil;
+
+public class MainActivity extends AppCompatActivity implements
+        GoogleApiClient.OnConnectionFailedListener {
+
+    // Initialize fragments
+    AccountFragment account = new AccountFragment();
+    DashboardFragment dashboard = new DashboardFragment();
+    HomeFragment home = new HomeFragment();
+    SearchFragment search = new SearchFragment();
+    Fragment currentFragment;
+
+    // Views
+    BottomNavigationView mBottomNavigationView;
+    Toolbar mToolbar;
 
     // Constants and other necessary variables
     private static final String TAG = "MainActivity";
+    private static final int LIMIT = 50;
 
     // Firebase and Google Sign-in instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -39,21 +65,29 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
 
-        // Initialize Firebase Auth
-        initFirebaseAuth();
+        // Build initial view
+        setContentView(R.layout.activity_main);
 
         // Enable Firestore logging
         FirebaseFirestore.setLoggingEnabled(true);
+
+        // Initialize Firebase Auth
+        initFirebaseAuth();
 
         // Initialize Google Sign-in Client and Firestore
         initGoogleSignIn();
         initFirestore();
 
+        // Set custom toolbar
+        mToolbar = findViewById(R.id.main_toolbar);
+        setSupportActionBar(mToolbar);
+
         // Rebuild navigation view to account for possible username change
         setupNavigationView();
 
+        // Add all fragments and show the default frag on open
+        initFragments();
     }
 
     private void initFirebaseAuth() {
@@ -64,7 +98,6 @@ public class MainActivity extends AppCompatActivity
             // Not signed in, launch the Sign In activity
             startActivity(new Intent(this, AccountActivity.class));
             finish();
-            return;
         }
     }
 
@@ -80,27 +113,16 @@ public class MainActivity extends AppCompatActivity
                 .build();
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in.
-        // TODO: Add code to check if user is signed in.
+    public void initFragments(){
+        // Add all the fragments to the frag manager
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.rootLayout, account)
+                // .add(R.id.rootLayout, dashboard)
+                .add(R.id.rootLayout, home)
+                .add(R.id.rootLayout, search)
+                .commit();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,8 +140,31 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(this, AccountActivity.class));
                 finish();
                 return true;
+
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                finish();
+                return true;
+
+            case R.id.action_add_items:
+                onAddItemsClicked();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void onAddItemsClicked() {
+        // Get a reference to the users collection
+        CollectionReference users = mFirestore.collection("users");
+
+        for (int i = 0; i < 10; i++) {
+            // Get a random Restaurant POJO
+            User user = UserUtil.getRandom(this);
+
+            // Add a new document to the users collection with email as doc ID
+            users.document(user.getEmail()).set(user, SetOptions.merge());
         }
     }
 
@@ -132,12 +177,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupNavigationView() {
-        BottomNavigationView mBottomNavigationView = findViewById(R.id.bottom_navigation);
+        mBottomNavigationView = findViewById(R.id.bottom_navigation);
         if (mBottomNavigationView != null) {
 
-            // Select first menu item by default and show Fragment accordingly.
+            // Select second menu item by default and show Fragment accordingly.
             Menu menu = mBottomNavigationView.getMenu();
-            selectFragment(menu.getItem(0));
+            selectFragment(menu.getItem(1));
 
             // Set action to perform when any menu-item is selected.
             mBottomNavigationView.setOnNavigationItemSelectedListener(
@@ -163,53 +208,39 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_home:
                 // Action to perform when Home Menu item is selected.
-                pushFragment(new HomeFragment());
+                showFrag(home);
                 break;
 
-            case R.id.action_dashboard:
-                // Action to perform when Dashboard Menu item is selected.
-                pushFragment(new DashboardFragment());
-                break;
+//            case R.id.action_dashboard:
+//                // Action to perform when Dashboard Menu item is selected.
+//                showFrag(dashboard);
+//                break;
 
             case R.id.action_account:
                 // Action to perform when Account Menu item is selected.
-                pushFragment(new AccountFragment());
+                showFrag(account);
                 break;
 
             case R.id.action_search:
                 // Action to perform when Search Menu item is selected.
-                pushFragment(new SearchFragment());
+                showFrag(search);
                 break;
+
         }
     }
 
-    /**
-     * Method to push any fragment into given id.
-     *
-     * @param fragment An instance of Fragment to show into the given id.
-     */
-    protected void pushFragment(Fragment fragment) {
-        if (fragment == null)
-            return;
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        if (fragmentManager != null) {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (ft != null) {
-                ft.replace(R.id.rootLayout, fragment);
-                ft.commit();
-            }
-        }
+    public void hideAllFrag(){
+        FragmentManager fm = getSupportFragmentManager();
+        fm.beginTransaction().hide(account).hide(search).hide(home).commit();
     }
-
-    /**
-     * Method to start any activity into given id.
-     *
-     * @param activity An instance of AppCompactActivity to start.
-     */
-    protected void pushActivity(AppCompatActivity activity) {
-        Intent intent = new Intent(this, activity.getClass());
-        startActivity(intent);
+    public void showFrag(Fragment frag){
+        //show and hide correct fragments when commanded
+        hideAllFrag();
+        getSupportFragmentManager().beginTransaction().show(frag).commit();
+        currentFragment = frag;
+    }
+    public void returnFrag(){
+        showFrag(currentFragment);
     }
 
 }

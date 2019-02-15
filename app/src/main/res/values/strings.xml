@@ -1,22 +1,112 @@
 <resources>
     <string name="app_name">Tutorbook</string>
+
+    <string name="value_any_grade">All grades</string>
+    <string name="value_any_subject">All subjects</string>
+    <string name="value_any_gender">Any gender</string>
+    <string name="value_any_type">Any user type</string>
+
+    <string name="label_category">Category</string>
+    <string name="label_city">City</string>
+    <string name="label_price">Price</string>
+    <string name="label_sort_by">Sort By</string>
+
+    <string name="sort_by_rating">Sort by Rating</string>
+    <string name="sort_by_popularity">Sort by Popularity</string>
+    <string name="sort_by_price">Sort by Price</string>
+
+    <string name="sorted_by_price">sorted by price</string>
+    <string name="sorted_by_popularity">sorted by popularity</string>
+
+    <string name="header_filters">Filter</string>
     <string name="home">Home</string>
     <string name="account">Account</string>
     <string name="dashboard">Dashboard</string>
-    <string name="bag">Cart</string>
     <string name="search">Search</string>
+    <string name="settings">Settings</string>
+    <string name="add_random">Add Random</string>
+
     <string name="create_account">Create Account</string>
     <string name="signin_account">Sign In</string>
+
     <string name="sign_out">Sign Out</string>
     <string name="cause_crash">Cause Crash</string>
+
     <string name="or_descriptor">-OR-</string>
+
     <string name="email_hint">Enter email</string>
     <string name="password_hint">Enter password</string>
     <string name="username_hint">Enter username</string>
     <string name="description_hint">Enter profile description</string>
     <string name="needed_subjects_hint">Enter desired study subjects</string>
     <string name="good_at_subjects_hint">Enter desired tutor subjects</string>
+
     <string name="profile_pic_description">Profile Picture</string>
     <string name="temp">No Data</string>
     <string name="update_profile">Update Profile</string>
+
+    <string name="all_users">All Users</string>
+    <string name="sorted_by_rating">sorted by rating</string>
+    <string name="message_no_results">Oops, couldn\'t find any results\nthat matched your filter</string>
+
+    <!-- User item !-->
+    <string name="divider_bullet">•</string>
+    <string name="fmt_num_ratings" translatable="false">(%d)</string>
+    <string name="email">E-Mail: </string>
+    <string name="phone">Phone: </string>
+    <string name="gender">Gender: </string>
+
+    <!-- Rating item !-->
+    <string name="delete_all">Delete All</string>
+    <string name="apply">Apply</string>
+    <string name="cancel">Cancel</string>
+    <string name="message_no_reviews">Be the first to leave a review!</string>
+    <string name="hint_review">How was your experience?</string>
+    <string name="submit">Submit</string>
+    <string name="filter_add_review">Add review</string>
+
+    <!-- Target grade levels -->
+    <string-array name="grades">
+        <item>@string/value_any_grade</item>
+
+        <item>Freshman</item>
+        <item>Sophomore</item>
+        <item>Junior</item>
+        <item>Senior</item>
+    </string-array>
+
+    <!-- All currently available subjects for tutoring at Henry M. Gunn High School -->
+    <string-array name="subjects">
+        <item>@string/value_any_subject</item>
+
+        <item>Geo H</item>
+        <item>Bio H</item>
+        <item>AP Comp Sci A</item>
+        <item>Lit Style</item>
+        <item>Wrld Hist</item>
+    </string-array>
+
+    <!-- Genders -->
+    <string-array name="genders">
+        <item>@string/value_any_gender</item>
+
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+    </string-array>
+
+    <!-- Types of users (i.e. tutors vs pupils) -->
+    <string-array name="types">
+        <item>@string/value_any_type</item>
+
+        <item>TUTOR</item>
+        <item>PUPIL</item>
+    </string-array>
+
+    <!-- Ways you can sort users -->
+    <string-array name="sort_by">
+        <item>@string/sort_by_rating</item>
+        <item>@string/sort_by_popularity</item>
+    </string-array>
+
 </resources>

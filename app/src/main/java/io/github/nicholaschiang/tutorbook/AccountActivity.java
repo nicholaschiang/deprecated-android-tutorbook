@@ -53,7 +53,7 @@ public class AccountActivity extends AppCompatActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.account_activity);
+        setContentView(R.layout.activity_account);
 
         // Initialize Firebase Auth
         mFirebaseAuth = FirebaseAuth.getInstance();

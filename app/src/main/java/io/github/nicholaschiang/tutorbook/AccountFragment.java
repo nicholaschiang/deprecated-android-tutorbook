@@ -1,29 +1,37 @@
 package io.github.nicholaschiang.tutorbook;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firestore.v1.WriteResult;
+import com.google.firebase.firestore.SetOptions;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -32,8 +40,9 @@ import java.util.Map;
 
 public class AccountFragment extends Fragment implements View.OnClickListener {
 
-    private static final String TAG = "TempTag";
+    private static final String TAG = "AccountFragment";
 
+    // TODO: Use the annotation BindView syntax for views
     // Buttons
     private Button mUpdateButton;
 
@@ -46,9 +55,6 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     private FirebaseUser mFirebaseUser;
     private String mUsername;
     private FirebaseFirestore mFirestore;
-
-    // Only load the image once
-    private boolean loadProfilePic = true;
 
     private static final String ANONYMOUS = "anonymous";
 
@@ -81,7 +87,7 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.account_fragment, container, false);
+        View v = inflater.inflate(R.layout.fragment_account, container, false);
 
         // Buttons
         mUpdateButton = v.findViewById(R.id.updateProfileDescription);
@@ -96,6 +102,10 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
 
         // Set welcome message and profile pic
         setWelcomeMessage(v);
+
+        // Restore previously written profile info
+        if (mProfileDescription.getText().toString().matches(""))
+            setProfile(v);
 
         // Return the final view for use by MainActivity
         return v;
@@ -127,22 +137,74 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         data.put("email", mFirebaseUser.getEmail().toString());
         data.put("username", mFirebaseUser.getDisplayName().toString());
         data.put("profile", description);
-        data.put("needed_studies", needed_subjects);
-        data.put("proficient_studies", proficient_subjects);
+        data.put("neededStudies", needed_subjects);
+        data.put("proficientStudies", proficient_subjects);
 
         // Write data to Firestore database
         mFirestore.collection("users").document(mFirebaseUser.getEmail().toString())
-            .set(data)
+            .set(data, SetOptions.merge())
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     Log.d(TAG, "DocumentSnapshot successfully written!");
+
+                    // Show success message and hide keyboard
+                    hideKeyboard();
+                    Snackbar.make(getView().findViewById(R.id.updateProfileDescription), "Profile updated",
+                            Snackbar.LENGTH_SHORT).show();
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     Log.w(TAG, "Error writing document", e);
+
+                    // Show failure message
+                    Snackbar.make(getView().findViewById(R.id.updateProfileDescription), "Failed to update profile",
+                            Snackbar.LENGTH_SHORT).show();
+                }
+            });
+    }
+
+    private void setProfile(View v) {
+        // Get the info from the user's document in Firestore database
+        DocumentReference docRef = mFirestore.collection("users").document(mFirebaseUser.getEmail().toString());
+        docRef
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+
+                            // If document exists, set the profile boxes to already written data
+                            if (document.get("profile") != null)
+                                mProfileDescription.setText(document.get("profile").toString());
+                            if (document.get("neededStudies") != null)
+                                mNeededSubjects.setText(document.get("neededStudies").toString());
+                            if (document.get("proficientStudies") != null)
+                                mProficientSubjects.setText(document.get("proficientStudies").toString());
+
+                        } else {
+
+                            // If document does not exist, log an error
+                            Log.d(TAG, "No such document");
+
+                            // Tell user sync failed
+                            Toast.makeText(getActivity(), "Failed to sync profile",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+
+                        // Getting that document failed
+                        Log.d(TAG, "get failed with ", task.getException());
+
+                        // Tell user sync failed
+                        Toast.makeText(getActivity(), "Failed to sync profile",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
     }
@@ -156,39 +218,21 @@ public class AccountFragment extends Fragment implements View.OnClickListener {
         // Set profile picture to reflect current user's profile
         ImageView profileImage = v.findViewById(R.id.profileImage);
         if (mFirebaseUser.getPhotoUrl() != null) {
-            if (loadProfilePic)
-                new DownloadImageTask(profileImage)
-                        .execute(mFirebaseUser.getPhotoUrl().toString());
-            loadProfilePic = false;
+            // Profile image
+            Glide.with(profileImage.getContext())
+                    .load(mFirebaseUser.getPhotoUrl().toString())
+                    .into(profileImage);
         }
         else
             profileImage.setColorFilter(getResources().getColor(R.color.colorPrimary));
 
     }
 
-    // Class to set a given ImageView from given image URL (i.e. profile picture here)
-    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        private DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+    private void hideKeyboard() {
+        View view = (View) getActivity().getCurrentFocus();
+        if (view != null) {
+            ((InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE))
+                    .hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 

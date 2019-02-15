@@ -19,6 +19,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".AccountActivity"></activity>
+        <activity android:name=".UserDetailActivity" android:parentActivityName="io.github.nicholaschiang.tutorbook.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.github.nicholaschiang.tutorbook.MainActivity" />
+        </activity>
+        <activity android:name=".SettingsActivity" android:parentActivityName="io.github.nicholaschiang.tutorbook.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="io.github.nicholaschiang.tutorbook.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
