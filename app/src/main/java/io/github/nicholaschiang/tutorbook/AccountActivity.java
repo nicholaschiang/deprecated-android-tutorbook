@@ -3,6 +3,7 @@ package io.github.nicholaschiang.tutorbook;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -19,6 +20,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -26,6 +29,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AccountActivity extends AppCompatActivity implements
@@ -46,17 +54,19 @@ public class AccountActivity extends AppCompatActivity implements
 
     private GoogleApiClient mGoogleApiClient;
 
-    // Firebase instance variables
+    // Firebase
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
+    private FirebaseFirestore mFirestore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
-        // Initialize Firebase Auth
+        // Initialize Firebase
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirestore = FirebaseFirestore.getInstance();
 
         // Buttons
         mGoogleSignInButton = findViewById(R.id.google_sign_in_button);
@@ -91,43 +101,26 @@ public class AccountActivity extends AppCompatActivity implements
                 signInWithGoogle();
                 break;
             case R.id.action_create_account:
-                signInWithEmailAndPassword("create");
+                createAccount();
                 break;
             case R.id.action_signin_account:
-                signInWithEmailAndPassword("signin");
+                signIn();
                 break;
         }
     }
 
-    private void signInWithEmailAndPassword(String createorsignin) {
-        // TODO: make this actually do something useful
-
+    private void createAccount() {
         // Get the inputted email and password
         String email = mEmailField.getText().toString();
         String password = mPasswordField.getText().toString();
-        String username = mUsernameField.getText().toString();
-
-        // Check if user wants to sign-in with existing account or create a new one
-        if (createorsignin == "create")
-            createAccount(email, password, username);
-        else if (createorsignin == "signin")
-            signIn(email, password);
-
-
-    }
-
-    private void createAccount(String email, String password, String user) {
-        // Define username final to be used below
-        final String username = user;
+        final String username = mUsernameField.getText().toString();
 
         Log.d(TAG, "createAccount:" + email);
         if (!validateFormCreate()) {
             return;
         }
 
-        // showProgressDialog();
-
-        // [START create_user_with_email]
+        // Create new user with username and password
         mFirebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -138,9 +131,10 @@ public class AccountActivity extends AppCompatActivity implements
 
                             // Update DisplayName with given username
                             mFirebaseUser = mFirebaseAuth.getCurrentUser();
-                            UserProfileChangeRequest.Builder updateUsernameBuild = new UserProfileChangeRequest.Builder();
-                            updateUsernameBuild.setDisplayName(username);
-                            UserProfileChangeRequest updateUsername = updateUsernameBuild.build();
+                            UserProfileChangeRequest updateUsername = new UserProfileChangeRequest
+                                    .Builder()
+                                    .setDisplayName((String) username)
+                                    .build();
                             mFirebaseUser.updateProfile(updateUsername);
 
                             // Go back to home screen with new information
@@ -151,27 +145,23 @@ public class AccountActivity extends AppCompatActivity implements
                             Toast.makeText(AccountActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
 
-                            // TODO: temp just restart AccountActivity process... change later
+                            // Restart signin on failure
                             startActivity(new Intent(AccountActivity.this, AccountActivity.class));
                         }
-
-                        // [START_EXCLUDE]
-                        // hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
-        // [END create_user_with_email]
     }
 
-    private void signIn(String email, String password) {
+    private void signIn() {
+        // Get the inputted email and password
+        String email = mEmailField.getText().toString();
+        String password = mPasswordField.getText().toString();
+
         Log.d(TAG, "signIn:" + email);
         if (!validateFormSignIn()) {
             return;
         }
 
-        // showProgressDialog();
-
-        // [START sign_in_with_email]
         mFirebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -189,19 +179,10 @@ public class AccountActivity extends AppCompatActivity implements
                             Toast.makeText(AccountActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
 
-                            // TODO: make custom display for registration confirmation
                             startActivity(new Intent(AccountActivity.this, AccountActivity.class));
                         }
-
-                        // [START_EXCLUDE]
-                        // if (!task.isSuccessful()) {
-                        //    mStatusTextView.setText(R.string.auth_failed);
-                        // }
-                        // hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
-        // [END sign_in_with_email]
     }
 
     private boolean validateFormCreate() {

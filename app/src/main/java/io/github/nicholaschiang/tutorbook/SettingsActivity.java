@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.widget.FrameLayout;
 
 import com.google.android.gms.auth.api.Auth;
 
@@ -17,14 +18,25 @@ public class SettingsActivity extends AppCompatActivity {
     // Toolbar
     Toolbar mToolbar;
 
+    // Views
+    FrameLayout mRootView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
+        // Set custom toolbar
         mToolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // Set screen to show settings fragment
+        mRootView = findViewById(R.id.main_settings);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.main_settings, new SettingsFragment())
+                .commit();
 
     }
 

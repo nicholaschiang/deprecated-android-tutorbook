@@ -32,6 +32,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.SetOptions;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.github.nicholaschiang.tutorbook.adapter.FirestoreAdapter;
 import io.github.nicholaschiang.tutorbook.adapter.UserAdapter;
 import io.github.nicholaschiang.tutorbook.model.User;
@@ -42,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements
 
     // Initialize fragments
     AccountFragment account = new AccountFragment();
-    DashboardFragment dashboard = new DashboardFragment();
     HomeFragment home = new HomeFragment();
     SearchFragment search = new SearchFragment();
     Fragment currentFragment;
@@ -78,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements
         // Initialize Google Sign-in Client and Firestore
         initGoogleSignIn();
         initFirestore();
+        // initProfileDoc(); TODO: Debug initial profile view after first sign-in
 
         // Set custom toolbar
         mToolbar = findViewById(R.id.main_toolbar);
@@ -101,6 +104,37 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
+    private void initProfileDoc() {
+        // Add document data using the user's email as the id with a hashmap
+        Map<String, Object> gdata = new HashMap<>();
+        if (mFirebaseUser.getEmail() != null)
+            gdata.put("email", mFirebaseUser.getEmail().toString());
+        if (mFirebaseUser.getDisplayName() != null)
+            gdata.put("username", mFirebaseUser.getDisplayName().toString());
+
+        if (mFirebaseUser.getEmail() != null) {
+            mFirestore.collection("users").document(mFirebaseUser.getEmail().toString())
+                    .set(gdata, SetOptions.merge())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error writing document", e);
+
+                            // Show failure message
+                            Snackbar.make(findViewById(R.id.action_create_account), "Failed to initialize profile",
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
     private void initFirestore() {
         mFirestore = FirebaseFirestore.getInstance();
     }
@@ -117,7 +151,6 @@ public class MainActivity extends AppCompatActivity implements
         // Add all the fragments to the frag manager
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.rootLayout, account)
-                // .add(R.id.rootLayout, dashboard)
                 .add(R.id.rootLayout, home)
                 .add(R.id.rootLayout, search)
                 .commit();
@@ -210,11 +243,6 @@ public class MainActivity extends AppCompatActivity implements
                 // Action to perform when Home Menu item is selected.
                 showFrag(home);
                 break;
-
-//            case R.id.action_dashboard:
-//                // Action to perform when Dashboard Menu item is selected.
-//                showFrag(dashboard);
-//                break;
 
             case R.id.action_account:
                 // Action to perform when Account Menu item is selected.

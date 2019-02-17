@@ -28,6 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.Transaction;
 
 import io.github.nicholaschiang.tutorbook.model.User;
 import io.github.nicholaschiang.tutorbook.model.Rating;
@@ -172,9 +173,41 @@ public class UserDetailActivity extends AppCompatActivity
         }
     }
 
-    private Task<Void> addRating(final DocumentReference restaurantRef, final Rating rating) {
-        // TODO(developer): Implement
-        return Tasks.forException(new Exception("not yet implemented"));
+    private Task<Void> addRating(final DocumentReference userRef, final Rating rating) {
+
+        // Create reference for new rating, for use inside the transaction
+        final DocumentReference ratingRef = userRef.collection("ratings")
+                .document();
+
+        // In a transaction, add the new rating and update the aggregate totals
+        return mFirestore.runTransaction(new Transaction.Function<Void>() {
+            @Override
+            public Void apply(Transaction transaction)
+                    throws FirebaseFirestoreException {
+
+                User user = transaction.get(userRef)
+                        .toObject(User.class);
+
+                // Compute new number of ratings
+                int newNumRatings = user.getNumRatings() + 1;
+
+                // Compute new average rating
+                double oldRatingTotal = user.getAvgRating() *
+                        user.getNumRatings();
+                double newAvgRating = (oldRatingTotal + rating.getRating()) /
+                        newNumRatings;
+
+                // Set new restaurant info
+                user.setNumRatings(newNumRatings);
+                user.setAvgRating(newAvgRating);
+
+                // Commit to Firestore
+                transaction.set(userRef, user);
+                transaction.set(ratingRef, rating);
+
+                return null;
+            }
+        });
     }
 
     /**

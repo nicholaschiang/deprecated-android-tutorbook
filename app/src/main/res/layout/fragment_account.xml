@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/account_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,83 +8,301 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profileImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_start"
-        android:layout_marginTop="@dimen/padding_top"
-        android:contentDescription="@string/profile_pic_description"
-        android:src="@drawable/ic_account"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/colorPrimaryDark"
-        app:layout_constraintStart_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <TextView
-        android:id="@+id/welcomeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_start"
-        android:layout_marginTop="@dimen/padding_top"
-        android:layout_marginEnd="@dimen/padding_end"
-        android:text="@string/account"
-        android:textSize="@dimen/title_text_size"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/profileImage"
-        app:layout_constraintStart_toEndOf="@id/profileImage"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/profileDescription"
-        android:inputType="text"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/account_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_start"
-        android:layout_marginTop="@dimen/padding_top"
-        android:layout_marginEnd="@dimen/padding_end"
-        android:hint="@string/description_hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
+        android:background="@color/background" >
 
-    <EditText
-        android:id="@+id/neededStudies"
-        android:inputType="text"
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/account_profile_image"
+            android:layout_width="@dimen/profile_image"
+            android:layout_height="@dimen/profile_image"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginTop="@dimen/padding_top"
+            android:contentDescription="@string/profile_pic_description"
+            android:src="@drawable/ic_account"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/colorPrimaryDark"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- Username and email views -->
+        <TextView
+            android:id="@+id/account_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginTop="@dimen/padding_top"
+            android:layout_marginEnd="@dimen/padding_end"
+            style="@style/AppTheme.Headline"
+            app:layout_constraintBottom_toTopOf="@id/account_email_text"
+            app:layout_constraintStart_toEndOf="@id/account_profile_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Nicholas Chiang"/>
+
+        <TextView
+            android:id="@+id/account_email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:text="@string/account"
+            style="@style/AppTheme.Caption"
+            app:layout_constraintStart_toStartOf="@id/account_title"
+            app:layout_constraintTop_toBottomOf="@id/account_title"
+            tools:text="nicholas.h.chiang@gmail.com"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- Editable profile description -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/account_profile_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_start"
-        android:layout_marginTop="@dimen/padding_top"
-        android:layout_marginEnd="@dimen/padding_end"
-        android:hint="@string/needed_subjects_hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileDescription" />
+        android:layout_below="@id/account_profile"
+        android:background="@color/background">
 
-    <EditText
-        android:id="@+id/proficientStudies"
-        android:inputType="text"
+        <TextView
+            android:id="@+id/description_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_top"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            style="@style/AppTheme.Body2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/account_description"/>
+
+        <EditText
+            android:id="@+id/account_description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:hint="@string/description_hint"
+            android:inputType="text"
+            app:layout_constraintEnd_toStartOf="@id/account_spinner_type"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/description_title" />
+
+        <!-- TODO: fix Spinner alignment with EditText baseline -->
+        <Spinner
+            android:id="@+id/account_spinner_type"
+            style="@style/AppTheme.AccountSpinner"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="0.4dp"
+            android:entries="@array/types"
+            app:layout_constraintStart_toEndOf="@id/account_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/account_description" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- Contact info (i.e. phone, email?) TODO: Should we have preferred email here too?-->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/account_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_start"
         android:layout_marginTop="@dimen/padding_top"
-        android:layout_marginEnd="@dimen/padding_end"
-        android:hint="@string/good_at_subjects_hint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/neededStudies" />
+        android:layout_below="@id/account_profile_description"
+        android:background="@color/background" >
 
-    <Button
-        android:id="@+id/updateProfileDescription"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/contact_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            style="@style/AppTheme.Body2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/account_contact"/>
+
+        <EditText
+            android:id="@+id/account_phone"
+            android:layout_width="@dimen/account_spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:hint="@string/phone_hint"
+            android:inputType="phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/contact_title" />
+
+        <EditText
+            android:id="@+id/account_email"
+            android:layout_width="@dimen/account_spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress"
+            app:layout_constraintStart_toEndOf="@id/account_phone"
+            app:layout_constraintBottom_toBottomOf="@id/account_phone"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- Basic info (i.e. Grade, Gender) -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/account_basic_info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_top"
-        android:layout_marginEnd="@dimen/padding_end"
-        android:text="@string/update_profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/proficientStudies"/>
+        android:layout_below="@id/account_contact"
+        android:background="@color/background" >
+
+        <TextView
+            android:id="@+id/basic_info_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            style="@style/AppTheme.Body2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/account_basic_info"/>
+
+        <Spinner
+            android:id="@+id/account_spinner_grade"
+            style="@style/AppTheme.AccountSpinner"
+            android:layout_width="@dimen/account_spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:entries="@array/grades"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/basic_info_title" />
+
+        <Spinner
+            android:id="@+id/account_spinner_gender"
+            style="@style/AppTheme.AccountSpinner"
+            android:layout_width="@dimen/account_spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:entries="@array/genders"
+            app:layout_constraintStart_toEndOf="@+id/account_spinner_grade"
+            app:layout_constraintTop_toBottomOf="@id/basic_info_title"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- Proficient studies (gives default of two spinners) -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/account_proficient_studies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_top"
+        android:layout_below="@id/account_basic_info"
+        android:background="@color/background" >
+
+        <TextView
+            android:id="@+id/proficient_studies_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            style="@style/AppTheme.Body2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/account_proficient_studies"/>
+
+        <Spinner
+            android:id="@+id/account_spinner_proficient_subjects1"
+            android:layout_width="@dimen/account_spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            style="@style/AppTheme.AccountSpinner"
+            android:entries="@array/subjects"
+            app:layout_constraintTop_toBottomOf="@id/proficient_studies_title"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Spinner
+            android:id="@+id/account_spinner_proficient_subjects2"
+            style="@style/AppTheme.AccountSpinner"
+            android:layout_width="@dimen/account_spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:entries="@array/subjects"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/account_spinner_proficient_subjects1"
+            app:layout_constraintTop_toBottomOf="@id/proficient_studies_title" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- Needed studies (gives default of two spinners) -->
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/account_needed_studies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/padding_top"
+        android:layout_below="@id/account_proficient_studies"
+        android:background="@color/background" >
+
+        <TextView
+            android:id="@+id/needed_studies_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            style="@style/AppTheme.Body2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/account_needed_studies"/>
+
+        <Spinner
+            android:id="@+id/account_spinner_needed_subjects1"
+            android:layout_width="@dimen/account_spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            style="@style/AppTheme.AccountSpinner"
+            android:entries="@array/subjects"
+            app:layout_constraintTop_toBottomOf="@id/needed_studies_title"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Spinner
+            android:id="@+id/account_spinner_needed_subjects2"
+            style="@style/AppTheme.AccountSpinner"
+            android:layout_width="@dimen/account_spinner_width"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:entries="@array/subjects"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/account_spinner_needed_subjects1"
+            app:layout_constraintTop_toBottomOf="@id/needed_studies_title" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- Centered update profile button -->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/account_needed_studies"
+        android:layout_marginTop="@dimen/padding_top"
+        android:background="@color/background">
+        <Button
+            android:id="@+id/action_update_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginTop="@dimen/padding_top"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:text="@string/update_profile"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

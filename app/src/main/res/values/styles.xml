@@ -56,6 +56,18 @@
         <item name="android:layout_marginBottom">4dp</item>
     </style>
 
+    <style name="AppTheme.AccountSpinner" parent="Base.Widget.AppCompat.Spinner.Underlined">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+    </style>
+
+    <style name="AppTheme.AccountTypeSpinner" parent="Base.Widget.AppCompat.Spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
     <style name="ThemeOverlay.FilterButton" parent="ThemeOverlay.AppCompat.Dark">
         <item name="colorButtonNormal">@color/colorPrimary</item>
     </style>

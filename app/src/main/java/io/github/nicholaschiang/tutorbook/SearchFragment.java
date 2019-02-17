@@ -2,45 +2,27 @@ package io.github.nicholaschiang.tutorbook;
 
 import android.content.Intent;
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 
-import java.util.Collections;
-
 import io.github.nicholaschiang.tutorbook.adapter.UserAdapter;
-import io.github.nicholaschiang.tutorbook.model.Filters;
-import io.github.nicholaschiang.tutorbook.model.User;
-import io.github.nicholaschiang.tutorbook.util.UserUtil;
 import io.github.nicholaschiang.tutorbook.viewmodel.SearchFragmentViewModel;
 
 

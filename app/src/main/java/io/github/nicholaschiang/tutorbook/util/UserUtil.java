@@ -115,6 +115,7 @@ public class UserUtil {
         user.setNumRatings(random.nextInt(20));
         user.setEmail(getRandomEmail(random));
         user.setPhone("(650)324-9189");
+        user.setProfile("This is a test. Some more test. And even more tests to blow your mind!");
 
         return user;
     }

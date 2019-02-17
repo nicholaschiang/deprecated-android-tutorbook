@@ -86,6 +86,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:textColor="@color/greySecondary"
-        tools:text="TUTOR" />
+        tools:text="@string/default_user_type" />
 
 </RelativeLayout>

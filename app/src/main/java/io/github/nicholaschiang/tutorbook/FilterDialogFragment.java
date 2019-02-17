@@ -25,7 +25,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import io.github.nicholaschiang.tutorbook.model.Filters;
 import io.github.nicholaschiang.tutorbook.model.User;
 import com.google.firebase.firestore.Query;
 

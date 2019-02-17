@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.nicholaschiang.tutorbook.model;
+package io.github.nicholaschiang.tutorbook;
 
 import android.content.Context;
 import android.text.TextUtils;
 
-import io.github.nicholaschiang.tutorbook.R;
 import io.github.nicholaschiang.tutorbook.model.User;
 import com.google.firebase.firestore.Query;
 

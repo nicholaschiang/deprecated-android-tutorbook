@@ -1,12 +1,14 @@
 package io.github.nicholaschiang.tutorbook.adapter;
 
 import android.content.res.Resources;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.Query;
@@ -83,26 +85,28 @@ public class UserAdapter extends FirestoreAdapter<UserAdapter.ViewHolder> {
                     .into(imageView);
 
             // Set basic info (i.e. username, ratings, grade, type)
-            nameView.setText(user.getName());
-            ratingBar.setRating((float) user.getAvgRating());
-            typeView.setText(user.getType());
-            gradeView.setText(user.getGradeString());
+            try {
+                nameView.setText(user.getName());
+                ratingBar.setRating((float) user.getAvgRating());
+                typeView.setText(user.getType());
+                gradeView.setText(user.getGradeString());
 
-            // Show appropriate subject data
-            if (user.getType().equals("TUTOR")) {
-                subjectsView.setText(user.getProficientStudies());
+                // Show appropriate subject data
+                if (user.getType().equals(resources.getString(R.string.tutor))) {
+                    subjectsView.setText(user.getProficientStudies());
+                } else if (user.getType().equals(resources.getString(R.string.pupil))) {
+                    subjectsView.setText(user.getProficientStudies());
+                } else {
+                    // If there is no specific type, show only needed data
+                    // TODO: what do we want our default to be? TUTOR or PUPIL?
+                    user.setType(resources.getString(R.string.default_user_type));
+                    subjectsView.setText(user.getNeededStudies());
+                }
+                numRatingsView.setText(resources.getString(R.string.fmt_num_ratings,
+                        user.getNumRatings()));
+            } catch (NullPointerException nullPointerException) {
+                // TODO: Fix this
             }
-            else if (user.getType().equals("PUPIL")) {
-                subjectsView.setText(user.getProficientStudies());
-            }
-            else {
-                // If there is no specific type, show only needed data
-                // TODO: what do we want our default to be? TUTOR or PUPIL?
-                user.setType("PUPIL");
-                subjectsView.setText(user.getNeededStudies());
-            }
-            numRatingsView.setText(resources.getString(R.string.fmt_num_ratings,
-                    user.getNumRatings()));
 
             // Click listener
             itemView.setOnClickListener(new View.OnClickListener() {

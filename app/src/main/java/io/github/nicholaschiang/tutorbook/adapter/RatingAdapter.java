@@ -25,6 +25,8 @@ import io.github.nicholaschiang.tutorbook.model.Rating;
 import io.github.nicholaschiang.tutorbook.R;
 import com.google.firebase.firestore.Query;
 
+import java.util.Date;
+
 import me.zhanghai.android.materialratingbar.MaterialRatingBar;
 
 /**
@@ -53,6 +55,7 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
         TextView nameView;
         MaterialRatingBar ratingBar;
         TextView textView;
+        TextView dateView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -61,12 +64,17 @@ public class RatingAdapter extends FirestoreAdapter<RatingAdapter.ViewHolder> {
             nameView = itemView.findViewById(R.id.rating_item_name);
             ratingBar = itemView.findViewById(R.id.rating_item_rating);
             textView = itemView.findViewById(R.id.rating_item_text);
+            dateView = itemView.findViewById(R.id.rating_item_date);
         }
 
         public void bind(Rating rating) {
             nameView.setText(rating.getUserName());
             ratingBar.setRating((float) rating.getRating());
             textView.setText(rating.getText());
+
+            // Normalize timestamp to MM/DD/YYYY
+            String date = (rating.getTimestamp().getMonth() + 1) + "/" + rating.getTimestamp().getDate() + "/" + (rating.getTimestamp().getYear() + 1900);
+            dateView.setText(date);
         }
     }
 

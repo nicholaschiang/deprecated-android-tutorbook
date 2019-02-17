@@ -32,6 +32,7 @@ public class User {
     public static final String FIELD_TYPE = "type";
     public static final String FIELD_GRADE = "grade";
     public static final String FIELD_GENDER = "gender";
+    public static final String FIELD_PROFILE = "profile";
     public static final String FIELD_POPULARITY = "numRatings";
     public static final String FIELD_AVG_RATING = "avgRating";
 
@@ -43,18 +44,20 @@ public class User {
     private String photo;
     private String type;
     private String gender;
+    private String profile;
     private int grade;
     private int numRatings;
     private double avgRating;
 
     public User() {}
 
-    public User(String username, String type, int grade, String proficient_studies, String needed_studies, String photo,
+    public User(String profile, String username, String type, int grade, String proficient_studies, String needed_studies, String photo,
                       String phone, String email, String gender, int numRatings, double avgRating) {
         this.username = username;
         this.proficient_studies = proficient_studies;
         this.needed_studies = needed_studies;
         this.email = email;
+        this.profile = profile;
         this.phone = phone;
         this.photo = photo;
         this.type = type;
@@ -124,6 +127,14 @@ public class User {
         return type;
     }
 
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
     public void setType(String type) {
         this.type = type;
     }
@@ -142,7 +153,7 @@ public class User {
         else if (grade == 12)
             return "Senior";
         else {
-            return "Unsupported Grade";
+            return  "Grade #" + grade;
         }
     }
 

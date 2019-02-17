@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Home Fragment card-based layout -->
     <dimen name="card_elevation">4dp</dimen>
     <dimen name="button_elevation">0dp</dimen>
     <dimen name="card_corners">4dp</dimen>
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
     <dimen name="padding_start">16dp</dimen>
     <dimen name="padding_end">16dp</dimen>
     <dimen name="padding_top">16dp</dimen>
     <dimen name="padding_bottom">16dp</dimen>
     <dimen name="title_text_size">18sp</dimen>
 
+    <!-- Main toolbar -->
     <dimen name="toolbar_elevation">0dp</dimen>
     <dimen name="nav_elevation">0dp</dimen>
+
+    <!-- Account Fragment -->
+    <dimen name="profile_image">50dp</dimen>
+    <dimen name="account_spinner_width">175dp</dimen>
 </resources>
 

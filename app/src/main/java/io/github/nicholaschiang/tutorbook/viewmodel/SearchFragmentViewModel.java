@@ -17,7 +17,7 @@ package io.github.nicholaschiang.tutorbook.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 
-import io.github.nicholaschiang.tutorbook.model.Filters;
+import io.github.nicholaschiang.tutorbook.Filters;
 
 /**
  * ViewModel for {@link io.github.nicholaschiang.tutorbook.SearchFragment}.

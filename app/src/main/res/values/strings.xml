@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">Tutorbook</string>
 
+    <!-- User types -->
+    <string name="tutor">Tutor</string>
+    <string name="pupil">Pupil</string>
+    <string name="default_user_type">@string/pupil</string>
+
     <string name="value_any_grade">All grades</string>
     <string name="value_any_subject">All subjects</string>
     <string name="value_any_gender">Any gender</string>
@@ -34,12 +39,21 @@
 
     <string name="or_descriptor">-OR-</string>
 
+    <!-- Hint text -->
     <string name="email_hint">Enter email</string>
     <string name="password_hint">Enter password</string>
     <string name="username_hint">Enter username</string>
+    <string name="phone_hint">Enter phone</string>
     <string name="description_hint">Enter profile description</string>
     <string name="needed_subjects_hint">Enter desired study subjects</string>
     <string name="good_at_subjects_hint">Enter desired tutor subjects</string>
+
+    <!-- Account/Profile Fragment title text -->
+    <string name="account_basic_info">Basic Info</string>
+    <string name="account_needed_studies">Needed Subjects</string>
+    <string name="account_proficient_studies">Proficient Subjects</string>
+    <string name="account_description">Profile Description</string>
+    <string name="account_contact">Contact Info</string>
 
     <string name="profile_pic_description">Profile Picture</string>
     <string name="temp">No Data</string>
@@ -97,10 +111,8 @@
 
     <!-- Types of users (i.e. tutors vs pupils) -->
     <string-array name="types">
-        <item>@string/value_any_type</item>
-
-        <item>TUTOR</item>
-        <item>PUPIL</item>
+        <item>@string/tutor</item>
+        <item>@string/pupil</item>
     </string-array>
 
     <!-- Ways you can sort users -->
