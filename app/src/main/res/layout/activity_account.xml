@@ -1,0 +1,116 @@
+<RelativeLayout
+    android:id="@+id/account_activity"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background" >
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/AppTheme.Toolbar"
+        app:popupTheme="@style/Theme.AppCompat.Light.DarkActionBar"
+        app:title="@string/app_name"
+        app:titleMarginStart="24dp"
+        app:titleTextColor="@android:color/white" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/rootLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/main_toolbar"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/enterUsername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginTop="@dimen/padding_top"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:hint="@string/username_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/enterEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginTop="@dimen/padding_top"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/enterUsername" />
+
+        <EditText
+            android:id="@+id/enterPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginTop="@dimen/padding_top"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enterEmail" />
+
+        <Button
+            android:id="@+id/action_create_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_top"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:text="@string/create_account"
+            android:elevation="@dimen/button_elevation"
+            app:layout_constraintRight_toLeftOf="@id/action_signin_account"
+            app:layout_constraintTop_toBottomOf="@+id/enterPassword"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <Button
+            android:id="@+id/action_signin_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/padding_start"
+            android:layout_marginTop="@dimen/padding_top"
+            android:layout_marginEnd="@dimen/padding_end"
+            android:elevation="@dimen/button_elevation"
+            android:text="@string/signin_account"
+            app:layout_constraintLeft_toRightOf="@id/action_create_account"
+            app:layout_constraintTop_toBottomOf="@+id/enterPassword" />
+
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/google_sign_in_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/padding_top"
+            android:visibility="visible"
+            android:elevation="@dimen/button_elevation"
+            app:layout_constraintTop_toBottomOf="@+id/orDescriptor"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" >
+        </com.google.android.gms.common.SignInButton>
+
+        <TextView
+            android:id="@+id/orDescriptor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_top"
+            android:text="@string/or_descriptor"
+            android:textSize="18sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/action_create_account" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

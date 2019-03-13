@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context="io.github.nicholaschiang.tutorbook.UserDetailActivity">
+
+    <RelativeLayout
+        android:id="@+id/user_top_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp">
+
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:alpha="1.0"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_person" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/gradient_up" />
+
+        <!-- Back button -->
+        <ImageView
+            android:id="@+id/user_button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:layout_alignStart="@+id/user_name"
+            android:layout_marginTop="16dp"
+            app:srcCompat="@drawable/ic_close_white_24px" />
+
+        <TextView
+            android:id="@+id/user_name"
+            style="@style/AppTheme.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/user_rating"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            tools:text="Nicholas Chiang" />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:id="@+id/user_rating"
+            style="@style/Widget.MaterialRatingBar.RatingBar.Indicator"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_above="@+id/user_grade"
+            android:layout_alignStart="@+id/user_name"
+            app:mrb_progressTint="@android:color/white"
+            app:mrb_secondaryProgressTint="@android:color/white" />
+
+        <TextView
+            android:id="@+id/user_num_ratings"
+            style="@style/AppTheme.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/user_rating"
+            android:layout_alignTop="@+id/user_rating"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@+id/user_rating"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            tools:text="(10)" />
+
+        <TextView
+            android:id="@+id/user_grade"
+            style="@style/AppTheme.Subheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/user_image"
+            android:layout_alignStart="@+id/user_name"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            tools:text="Freshman" />
+
+        <TextView
+            android:id="@+id/user_divider"
+            style="@style/AppTheme.TextDivider"
+            android:layout_alignTop="@+id/user_grade"
+            android:layout_toEndOf="@+id/user_grade"
+            android:text="@string/divider_bullet"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/user_subjects"
+            style="@style/AppTheme.Subheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/user_grade"
+            android:layout_below="@+id/user_grade"
+            android:layout_toEndOf="@+id/user_divider"
+            android:textColor="@android:color/white"
+            tools:text="Geo H, AP Comp Sci A" />
+
+        <TextView
+            android:id="@+id/user_type"
+            style="@style/AppTheme.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/user_name"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            tools:text="TUTOR" />
+
+    </RelativeLayout>
+
+    <!-- New review button -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_show_rating_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/user_top_card"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="-28dp"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/ic_add_white_24px" />
+
+    <!-- Profile view for email, etc. -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_top_card"
+        android:id="@+id/user_profile_card">
+
+        <TextView
+            android:id="@+id/user_email_descriptor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Body1"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="@string/email"/>
+
+        <TextView
+            android:id="@+id/user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Body1"
+            android:layout_toEndOf="@+id/user_email_descriptor"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@android:color/black"
+            tools:text="nicholas.h.chiang@gmail.com"/>
+
+        <TextView
+            android:id="@+id/user_phone_descriptor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Body1"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/user_email"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="@string/phone"/>
+
+        <TextView
+            android:id="@+id/user_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Body1"
+            android:layout_toEndOf="@+id/user_phone_descriptor"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/user_email"
+            android:textColor="@android:color/black"
+            tools:text="(650) 861 2723"/>
+
+        <TextView
+            android:id="@+id/user_gender_descriptor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Body1"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/user_email"
+            android:layout_toEndOf="@+id/user_phone"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:text="@string/gender"/>
+
+        <TextView
+            android:id="@+id/user_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AppTheme.Body1"
+            android:layout_toEndOf="@+id/user_gender_descriptor"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/user_email"
+            android:textColor="@android:color/black"
+            tools:text="Male"/>
+
+    </RelativeLayout>
+
+    <!-- Ratings -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_ratings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_profile_card"
+        android:background="@android:color/transparent"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:paddingTop="28dp"
+        android:visibility="gone"
+        tools:listitem="@layout/item_rating" />
+
+    <!-- View for empty ratings -->
+    <LinearLayout
+        android:id="@+id/view_empty_ratings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/user_profile_card"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:src="@drawable/pizza_monster"
+            style="@style/AppTheme.PizzaGuy" />
+
+        <TextView
+            style="@style/AppTheme.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/message_no_reviews"
+            android:textColor="@color/greyDisabled" />
+
+    </LinearLayout>
+
+</RelativeLayout>

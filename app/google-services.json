@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "488773238477",
+    "firebase_url": "https://tutorbook-779d8.firebaseio.com",
+    "project_id": "tutorbook-779d8",
+    "storage_bucket": "tutorbook-779d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488773238477:android:4df3836be5945537",
+        "android_client_info": {
+          "package_name": "io.github.nicholaschiang.tutorbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488773238477-qd6kvmcgohh40hi2bf99ogkjoltdg01u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.github.nicholaschiang.tutorbook",
+            "certificate_hash": "ee055652cb19432cc0c8cafd418f1b21a937c156"
+          }
+        },
+        {
+          "client_id": "488773238477-j09csh8064mcsq3jj92tlinii51ptjho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWbMbPAr1Vr1EDEsxcfMTLo8KFVyY3sko"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488773238477-j09csh8064mcsq3jj92tlinii51ptjho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
